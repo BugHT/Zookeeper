@@ -12,7 +12,7 @@ ZK客户端
 3. 创建ClientCnxn。
 <br>
 如果在Zookeeper的构造方法中传入一个Watcher对象的话，那么Zookeeper就会将这个Watcher对象保存在ZKWatcherManager的defaultWatcher中，作为整个客户端会话期间的默认Watcher。
-![alt text](image/客户端.png)
+![alt text](https://github.com/BugHT/Zookeeper/image/客户端.png)
 
 SendThread是客户端ClientCnxn内部的一个核心I/O调度进程，用于管理客户端与服务端之间的所有网络I/O操作，具体作用：
 1. 维护了客户端与服务端之间的会话生命周期，通过一定周期频率内向服务端发送PING包检测心跳，如果会话周期内客户端与服务端出现TCP连接断开，那么就会自动且透明的完成重连操作。
