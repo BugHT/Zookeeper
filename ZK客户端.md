@@ -19,3 +19,11 @@ SendThread是客户端ClientCnxn内部的一个核心I/O调度进程，用于管
 3. 将来自服务端的事件传递给EventThread去处理。
 
 EventThread是客户端ClientCnxn内部的一个事件处理线程，负责客户端的事件处理，并触发客户端注册的Watcher监听，EventThread中的watingEvents队列用于临时存放那些需要被触发的Object，包括客户端注册的Watcher和异步接口中注册的回调器AsnycCallback。同时，EVentThread会不断地从watingEvents中取出Object，识别具体类型（Watcher或AsnycCallback），并分别调用process和processResult接口方法来实现对事件的触发和回调。
+
+### 客户端和服务端的长连接的session失效，超时，连接断掉的问题以及处理方式
+ClientCnxn包括以下几个变量：
+- private int connectTimeout；
+- private volatile int negotiatedSessionTimeout；
+- private int readTimeout；
+- private final int sessionTimeout；
+在client链接到server后，server返回给client确认信息（包括服务器返回给客户端的真实的timeout时间--negotiatedSessionTimeout）
